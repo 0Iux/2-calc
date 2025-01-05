@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+var menuMap = map[string]func([]int) float64{
+	"AVG": avg,
+	"avg": avg,
+	"SUM": sum,
+	"sum": sum,
+	"Med": med,
+	"med": med,
+}
+
 func main() {
 	var operation, nums string
 	var nums_slice []int
@@ -15,21 +24,11 @@ func main() {
 	for {
 		operation, nums = user_input()
 		nums_slice = make_slice(nums)
-		user_output(operation, nums_slice)
+		ans := menuMap[operation](nums_slice)
+		fmt.Printf("%s: %.2f\n", operation, ans)
 		if !check_repeat() {
 			break
 		}
-	}
-}
-
-func user_output(operation string, nums []int) {
-	switch operation {
-	case "AVG":
-		fmt.Printf("AVG: %.2f\n", avg(nums))
-	case "SUM":
-		fmt.Printf("SUM: %.2f\n", sum(nums))
-	case "MED":
-		fmt.Printf("MED: %.2f\n", med(nums))
 	}
 }
 
